@@ -61,45 +61,6 @@ export default function Facebook() {
                             console.log('User Owned Page details:', response.data);
                             setPages(response.data);
                             setArr(response.data);
-
-                            /*   response.data.forEach(c => {
-             
-                                     console.log(c.name)
-                                   //Page Insights
-                                     window.FB.api(
-                                         `/${c.id}/insights/`,
-                                         'GET',
-                                         {
-                                             access_token: c.access_token,
-                                             metric: 'page_fans,page_post_engagements,page_impressions,page_actions_post_reactions_total'
-                                         },
-                                         function (response) {
-                                             if (response && !response.error) {
-                                                 console.log("Test Response : ",response.data)
-                                                 
-                                                 response.data.forEach(d=>{
-                                                     if(d.name==="page_fans"){
-                                                         console.log(d.name," : ",d.values[0].value)
-                                                     }
-                                                   else if(d.name==="page_post_engagements"){
-                                                        console.log(d.name," : ",d.values[0].value)
-                                                     }
-                                                    else if(d.name==="page_impressions"){
-                                                         console.log(d.name," : ",d.values[0].value)
-                                                      }
-                                                     else if(d.name==="page_actions_post_reactions_total"){
-                                                         console.log(d.name," : ",d.values[0].value)
-                                                      }
-                                                 });
- 
-                                             } else {
-                                                 console.error('Error fetching insights:', response.error);
-                                             }
-                                         }
-                                     );
-                                
-                                 }); */
-
                         } else {
                             console.error('Error fetching pages:', response.error);
                         }
@@ -127,13 +88,13 @@ export default function Facebook() {
                     'GET',
                     {
                         access_token: p.access_token,
-                        metric: 'page_fans,page_post_engagements,page_impressions,page_actions_post_reactions_total'
+                        metric: 'page_fans,page_post_engagements,page_impressions,page_actions_post_reactions_like_total'
                     },
                     function (response) {
                         if (response && !response.error) {
                             console.log(response)
                             response.data.forEach(d => {
-                           if (d.name === "page_fans") {
+                                if (d.name === "page_fans") {
                                     console.log(d.name, " : ", d.values[0].value)
                                     setFollower(d.values[0].value)
                                 }
@@ -141,13 +102,13 @@ export default function Facebook() {
                                     console.log(d.name, " : ", d.values[0].value)
                                     setEngagement(d.values[0].value)
                                 }
-                               else if (d.name === "page_impressions") {
+                                else if (d.name === "page_impressions") {
                                     console.log(d.name, " : ", d.values[0].value)
                                     setImpression(d.values[0].value)
                                 }
-                               else if (d.name === "page_actions_post_reactions_total") {
+                                else if (d.name === "page_actions_post_reactions_like_total") {
                                     console.log(d.name, " : ", d.values[0].value)
-                                    setReaction(d.values[0].value.data)
+                                    setReaction(d.values[0].value)
                                 }
                             })
                         } else {
