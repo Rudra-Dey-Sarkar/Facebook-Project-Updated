@@ -72,7 +72,6 @@ export default function Facebook() {
             }, { scope: 'pages_show_list,pages_read_engagement,read_insights' });
 
         }
-            
         else {
             console.error('Facebook SDK not yet initialized.');
         }
