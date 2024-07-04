@@ -75,7 +75,7 @@ export default function Facebook() {
                 console.log(response);
                 if (response.authResponse) {
                     console.log('User logged in successfully!');
-                    localStorage.setItem("accessToken", response.authResponse.accessToken)
+                    localStorage.setItem("accessToken", response.authResponse.accessToken) // Adding Access token to Local Storage
                     console.log(localStorage.getItem("accessToken")); // Access token for further API calls
                     fetchData(localStorage.getItem("accessToken"))
                 } else {
