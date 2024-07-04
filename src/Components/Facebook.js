@@ -127,7 +127,7 @@ export default function Facebook() {
                     'GET',
                     {
                         access_token: p.access_token,
-                        metric: 'page_fans,page_post_engagements,page_impressions,page_actions_post_reactions_total'
+                        metric: 'page_fans,page_post_engagements,page_impressions,page_actions_post_reactions_like_total'
                     },
                     function (response) {
                         if (response && !response.error) {
@@ -145,9 +145,9 @@ export default function Facebook() {
                                     console.log(d.name, " : ", d.values[0].value)
                                     setImpression(d.values[0].value)
                                 }
-                               else if (d.name === "page_actions_post_reactions_total") {
+                               else if (d.name === "page_actions_post_reactions_like_total") {
                                     console.log(d.name, " : ", d.values[0].value)
-                                    setReaction(d.values[0].value.data)
+                                    setReaction(d.values[0].value)
                                 }
                             })
                         } else {
