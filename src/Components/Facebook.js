@@ -68,23 +68,30 @@ export default function Facebook() {
         });
     }
 
+    function logIn(){
+        window.FB.login(response => {
+            console.log(response);
+            if (response.authResponse) {
+                console.log('User logged in successfully!');
+                localStorage.setItem("accessToken", response.authResponse.accessToken) // Adding Access token to Local Storage
+                console.log(localStorage.getItem("accessToken")); // Access token for further API calls
+                fetchData(localStorage.getItem("accessToken"))
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+                console.log(response.status); // Error or cancelled status
+            }
+        }, { scope: 'pages_show_list,pages_read_engagement,read_insights' });
+    }
+
     const handleLogin = () => {
         // Ensure FB is initialized before attempting login and load after Facebook SDK
         if (window.FB) {
-            window.FB.login(response => {
-                console.log(response);
-                if (response.authResponse) {
-                    console.log('User logged in successfully!');
-                    localStorage.setItem("accessToken", response.authResponse.accessToken) // Adding Access token to Local Storage
-                    console.log(localStorage.getItem("accessToken")); // Access token for further API calls
-                    fetchData(localStorage.getItem("accessToken"))
-                } else {
-                    console.log('User cancelled login or did not fully authorize.');
-                    console.log(response.status); // Error or cancelled status
-                }
-            }, { scope: 'pages_show_list,pages_read_engagement,read_insights' });
+            logIn();
         } else {
             console.error('Facebook SDK not yet initialized.');
+            setTimeout(() => {
+                logIn();
+            }, 55);
         }
     };
 
