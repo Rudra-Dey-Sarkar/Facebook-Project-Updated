@@ -22,53 +22,27 @@ export default function Facebook() {
                 version: 'v20.0'
             });
 
-                // Load Facebook SDK asynchronously
-                (function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s); js.id = id;
-                    js.src = "https://connect.facebook.net/en_US/sdk.js";
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
-            }
+            // Load Facebook SDK asynchronously
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        }
     }, []);
 
     useEffect(() => {
         localStorage.getItem("accessToken")
-            if (Window.FB) {
-              fetchData(localStorage.getItem("accessToken"))
-            }else{
-                console.log("SDK Not Loaded Yet")
-                setTimeout(() => {
-                    fetchData(localStorage.getItem("accessToken"))
-                }, 55);
-            }
+        console.log("SDK Loadeding......")
+        setTimeout(() => {
+            fetchData(localStorage.getItem("accessToken"))
+        }, 150);
+
     }, [])
-
-    function fetchData(newToken){
-          // Fetch user details
-          window.FB.api('/me', { fields: 'name,picture', access_token: newToken }, function (response) {
-            if (response && !response.error) {
-                console.log('User details:', response);
-                setPic(response.picture.data.url);
-                setName(response.name);
-            } else {
-                console.error('Error fetching user details:', response.error);
-            }
-        });
-        // Fetch pages owned by the user
-        window.FB.api('/me/accounts', 'GET', { access_token: newToken}, function (response) {
-            if (response && !response.error) {
-                console.log('User Owned Page details:', response.data);
-                setPages(response.data);
-                setArr(response.data);
-            } else {
-                console.error('Error fetching pages:', response.error);
-            }
-        });
-    }
-
-    function logIn(){
+//LogIn Function 
+    function logIn() {
         window.FB.login(response => {
             console.log(response);
             if (response.authResponse) {
@@ -82,6 +56,30 @@ export default function Facebook() {
             }
         }, { scope: 'pages_show_list,pages_read_engagement,read_insights' });
     }
+//Function To Fetch Data of User and User Owned Pages
+    function fetchData(newToken) {
+        // Fetch user details
+        window.FB.api('/me', { fields: 'name,picture', access_token: newToken }, function (response) {
+            if (response && !response.error) {
+                console.log('User details:', response);
+                setPic(response.picture.data.url);
+                setName(response.name);
+            } else {
+                console.error('Error fetching user details:', response.error);
+            }
+        });
+        // Fetch pages owned by the user
+        window.FB.api('/me/accounts', 'GET', { access_token: newToken }, function (response) {
+            if (response && !response.error) {
+                console.log('User Owned Page details:', response.data);
+                setPages(response.data);
+                setArr(response.data);
+            } else {
+                console.error('Error fetching pages:', response.error);
+            }
+        });
+    }
+
 
     const handleLogin = () => {
         // Ensure FB is initialized before attempting login and load after Facebook SDK
@@ -91,7 +89,7 @@ export default function Facebook() {
             console.error('Facebook SDK not yet initialized.');
             setTimeout(() => {
                 logIn();
-            }, 55);
+            }, 150);
         }
     };
 
@@ -163,7 +161,7 @@ export default function Facebook() {
                     <div>Total Reactions: {reaction}</div>
                 </>
             </div>
-            <button onClick={()=>{
+            <button onClick={() => {
                 localStorage.clear();
                 window.location.reload();
             }}>Logout</button>
