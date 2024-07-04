@@ -19,7 +19,7 @@ export default function Facebook() {
                 appId: '332649086558323',
                 cookie: true,
                 xfbml: true,
-                version: 'v20.0'
+                version: ''
             });
         }
     }, []);
