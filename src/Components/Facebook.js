@@ -10,45 +10,54 @@ export default function Facebook() {
     const [impression, setImpression] = useState("");
     const [reaction, setReaction] = useState("");
 
-    useEffect(() => {
-        // App Data Set Up
+    // Promise to handle SDK initialization
+    const sdkPromise = new Promise(resolve => {
         window.fbAsyncInit = function () {
             window.FB.init({
-                //Auth Only App ID : 1012881210507724
-                //Business App ID : 332649086558323
                 appId: '332649086558323',
                 cookie: true,
                 xfbml: true,
                 version: 'v20.0'
             });
+            resolve(); // SDK loaded
+        };
+
+        // Load Facebook SDK asynchronously
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    });
+
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            console.log("Fetching data with existing token...");
+            fetchData(token);
         }
     }, []);
 
-    useEffect(() => {
-        localStorage.getItem("accessToken")
-        console.log("SDK Loadeding......")
-        setTimeout(() => {
-            fetchData(localStorage.getItem("accessToken"))
-        }, 150);
-
-    }, [])
-//LogIn Function 
-    function logIn() {
+    async function logIn() {
+        await sdkPromise; // Wait for SDK to load
         window.FB.login(response => {
             console.log(response);
             if (response.authResponse) {
                 console.log('User logged in successfully!');
-                localStorage.setItem("accessToken", response.authResponse.accessToken) // Adding Access token to Local Storage
+                localStorage.setItem("accessToken", response.authResponse.accessToken); // Adding Access token to Local Storage
                 console.log(localStorage.getItem("accessToken")); // Access token for further API calls
-                fetchData(localStorage.getItem("accessToken"))
+                fetchData(localStorage.getItem("accessToken"));
             } else {
                 console.log('User cancelled login or did not fully authorize.');
                 console.log(response.status); // Error or cancelled status
             }
         }, { scope: 'pages_show_list,pages_read_engagement,read_insights' });
     }
-//Function To Fetch Data of User and User Owned Pages
-    function fetchData(newToken) {
+
+    async function fetchData(newToken) {
+        await sdkPromise; // Wait for SDK to load
         // Fetch user details
         window.FB.api('/me', { fields: 'name,picture', access_token: newToken }, function (response) {
             if (response && !response.error) {
@@ -71,17 +80,9 @@ export default function Facebook() {
         });
     }
 
-
-    const handleLogin = () => {
-        // Ensure FB is initialized before attempting login and load after Facebook SDK
-        if (window.FB) {
-            logIn();
-        } else {
-            console.error('Facebook SDK not yet initialized.');
-            setTimeout(() => {
-                logIn();
-            }, 150);
-        }
+    const handleLogin = async () => {
+        await sdkPromise; // Wait for SDK to load
+        logIn();
     };
 
     function selectPages(Value) {
@@ -129,13 +130,13 @@ export default function Facebook() {
             }
         });
     }
+
     return (
         <div>
             <button onClick={handleLogin}>Log in with Facebook</button>
             <div>
                 <img src={pic} alt='' />
                 <p>{name}</p>
-
                 <select onChange={(e) => {
                     console.log(e.target.value);
                     selectPages(e.target.value);
