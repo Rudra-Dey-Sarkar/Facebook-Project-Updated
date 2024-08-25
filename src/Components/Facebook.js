@@ -169,7 +169,7 @@ export default function Facebook() {
                 </div>
                 ) : (
                 <div>
-                    <button onClick={handleLogin}><p>Log in with Facebook</p></button>
+                    <button id='login' onClick={handleLogin}><p>Log in with Facebook</p></button>
                 </div>
                 )
             }
