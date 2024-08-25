@@ -17,7 +17,7 @@ export default function Facebook() {
             window.FB.init({
                 //Auth Only App ID : 1012881210507724
                 //Business App ID : 332649086558323
-                appId: '332649086558323',
+                appId: ' 1079510237516516',
                 cookie: true,
                 xfbml: true,
                 version: 'v20.0'
