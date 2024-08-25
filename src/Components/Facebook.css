@@ -1,0 +1,53 @@
+.mainBody {
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+    background-color: white;
+}
+
+.mainContent {
+    margin: auto;
+    margin-top: 25vh;
+    padding: 20px;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: #979797;
+}
+
+#pic {
+    width: 100px;
+    height: 100px;
+    border: 2px solid white;
+    border-radius: 100%;
+
+}
+
+#name {
+    font-size: 1.2rem;
+    color: white;
+    font-weight: 600;
+}
+
+#pageSelection {
+    margin: 20px
+}
+
+.pageInsights {
+    background-color: white;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#logout {
+    width: 100px;
+    height: 36px;
+    border-radius: 50px;
+    background-color: red;
+}
+
+#logout p{
+    margin: auto;
+    font-size: 0.9rem;
+    color: white;
+}
