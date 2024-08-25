@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import "./Facebook.css"
 
 export default function Facebook() {
     const [arr, setArr] = useState([])
@@ -11,7 +12,8 @@ export default function Facebook() {
     const [impression, setImpression] = useState("");
     const [reaction, setReaction] = useState("");
 
-   useEffect(() => {
+    //Configure and Load The Facebook SDK Asynchronously  
+    useEffect(() => {
         // Load Facebook SDK asynchronously
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -20,7 +22,7 @@ export default function Facebook() {
             js.src = "https://connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-        
+
         // App Data Set Up
         setTimeout(() => {
             if (window.FB) {
@@ -37,6 +39,7 @@ export default function Facebook() {
     }, []);
 
 
+    //Login Function 
     const handleLogin = () => {
         // Ensure FB is initialized before attempting login and load after Facebook SDK
         if (window.FB) {
@@ -47,13 +50,13 @@ export default function Facebook() {
                     console.log('User logged in successfully!');
                     console.log(response.authResponse.accessToken); // Access token for further API calls
                     setAccT(response.authResponse.accessToken)
-
+                    localStorage.setItem("access_token", accT);
                     // Fetch user details
                     window.FB.api('/me', { fields: 'name,picture', access_token: accT }, function (response) {
                         if (response && !response.error) {
                             console.log('User details:', response);
-                            setPic(response.picture.data.url)
-                            setName(response.name)
+                            setPic(response.picture.data.url);
+                            setName(response.name);
                         } else {
                             console.error('Error fetching user details:', response.error);
                         }
@@ -81,7 +84,7 @@ export default function Facebook() {
         }
     };
 
-
+    //Select Pages and Show Page Insights
     function selectPages(Value) {
         arr.forEach(p => {
             if (Value === p.id) {
@@ -124,30 +127,53 @@ export default function Facebook() {
         });
     }
 
+    //Logout and Reset All Details
+    function Logout(){
+        setArr(null);
+        setAccT(null);
+        setPic(null);
+        setName(null);
+        setPages(null);
+        setFollower(null);
+        setEngagement(null);
+        setImpression(null);
+        setReaction(null);
+        window.location.reload();
+    }
+
     return (
-        <div>
-            <button onClick={handleLogin}>Log in with Facebook</button>
-            <div>
-                <img src={pic} alt=''></img>
-                <p>{name}</p>
-
-                <select onChange={(e) => {
-                    console.log(e.target.value)
-                    selectPages(e.target.value)
-                }}>
-
-                    <option value="">Select a Page</option>
-                    {pages.map((page) => (
-                        <option key={page.id} value={page.id}>{page.name}</option>
-                    ))}
-                </select>
-                <>
-                    <div>Total Followers: {follower}</div>
-                    <div>Total Engagement: {engagement}</div>
-                    <div>Total Impressions: {impression}</div>
-                    <div>Total Reactions: {reaction}</div>
-                </>
-            </div>
+        <div className='mainBody'>
+            {
+                accT ? (
+                    <div className='mainContent'>
+                    <img id='pic' src={pic} alt=''></img>
+                    <p id='name'>{name}</p>
+    
+                    <select id='pageSelection' onChange={(e) => {
+                        console.log(e.target.value)
+                        selectPages(e.target.value)
+                    }}>
+    
+                        <option value="">Select a Page</option>
+                        {pages.map((page) => (
+                            <option key={page.id} value={page.id}>{page.name}</option>
+                        ))}
+                    </select>
+                    <div className='pageInsights'>
+                        <div>Total Followers :- {follower}</div>
+                        <div>Total Engagement :- {engagement}</div>
+                        <div>Total Impressions :- {impression}</div>
+                        <div>Total Reactions :- {reaction}</div>
+                    </div>
+                    <button id='logout' onClick={()=>Logout()}><p>Logout</p></button>
+                </div>
+                ) : (
+                <div>
+                    <button onClick={handleLogin}><p>Log in with Facebook</p></button>
+                </div>
+                )
+            }
+            
 
         </div>
     );
