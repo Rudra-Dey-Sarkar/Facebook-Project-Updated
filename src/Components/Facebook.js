@@ -11,17 +11,7 @@ export default function Facebook() {
     const [impression, setImpression] = useState("");
     const [reaction, setReaction] = useState("");
 
-    useEffect(() => {
-        // App Data Set Up
-        window.fbAsyncInit = function () {
-            window.FB.init({
-                //Business App ID :  1079510237516516
-                appId: '1079510237516516',
-                cookie: true,
-                xfbml: true,
-                version: 'v20.0'
-            });
-        };
+   useEffect(() => {
         // Load Facebook SDK asynchronously
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -30,6 +20,20 @@ export default function Facebook() {
             js.src = "https://connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+        
+        // App Data Set Up
+        setTimeout(() => {
+            if (window.FB) {
+                window.FB.init({
+                    appId: '1079510237516516',
+                    cookie: true,
+                    xfbml: true,
+                    version: 'v20.0'
+                });
+            } else {
+                console.error('Facebook SDK not yet initialized.');
+            }
+        }, 1000); // 1-second delay
     }, []);
 
 
