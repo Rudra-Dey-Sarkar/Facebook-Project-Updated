@@ -15,8 +15,7 @@ export default function Facebook() {
         // App Data Set Up
         window.fbAsyncInit = function () {
             window.FB.init({
-                //Auth Only App ID : 1012881210507724
-                //Business App ID : 332649086558323
+                //Business App ID :  1079510237516516
                 appId: '1079510237516516',
                 cookie: true,
                 xfbml: true,
@@ -61,44 +60,6 @@ export default function Facebook() {
                             console.log('User Owned Page details:', response.data);
                             setPages(response.data);
                             setArr(response.data);
-
-                            /*   response.data.forEach(c => {
-             
-                                     console.log(c.name)
-                                   //Page Insights
-                                     window.FB.api(
-                                         `/${c.id}/insights/`,
-                                         'GET',
-                                         {
-                                             access_token: c.access_token,
-                                             metric: 'page_fans,page_post_engagements,page_impressions,page_actions_post_reactions_total'
-                                         },
-                                         function (response) {
-                                             if (response && !response.error) {
-                                                 console.log("Test Response : ",response.data)
-                                                 
-                                                 response.data.forEach(d=>{
-                                                     if(d.name==="page_fans"){
-                                                         console.log(d.name," : ",d.values[0].value)
-                                                     }
-                                                   else if(d.name==="page_post_engagements"){
-                                                        console.log(d.name," : ",d.values[0].value)
-                                                     }
-                                                    else if(d.name==="page_impressions"){
-                                                         console.log(d.name," : ",d.values[0].value)
-                                                      }
-                                                     else if(d.name==="page_actions_post_reactions_total"){
-                                                         console.log(d.name," : ",d.values[0].value)
-                                                      }
-                                                 });
- 
-                                             } else {
-                                                 console.error('Error fetching insights:', response.error);
-                                             }
-                                         }
-                                     );
-                                
-                                 }); */
 
                         } else {
                             console.error('Error fetching pages:', response.error);
