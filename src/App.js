@@ -1,12 +1,15 @@
-import React from 'react';
-import Facebook from './Components/Facebook';
-
-const App = () => {
+import React, {createContext} from 'react';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+export const userContext = createContext();
+export const age = createContext();
+import Facebook from './components/Facebook';
+function App() {
   return (
-    <div>
-     <Facebook></Facebook>
+    <div className="App">
+   <Facebook/>
     </div>
   );
-};
+}
 
 export default App;
