@@ -36,11 +36,12 @@ cursor: pointer;
     height: 100px;
     border: 2px solid white;
     border-radius: 100%;
-
+    box-shadow: 10px 5px 15px black;
 }
 #name {
     margin: auto;
-    font-size: 1.2rem;
+    margin-top: 25px;
+    font-size: 1.6rem;
     color: white;
     font-weight: 600;
 }
@@ -50,6 +51,7 @@ cursor: pointer;
 }
 #pageSelection:hover{
     cursor: pointer;
+    box-shadow: 10px 10px 25px black;
     }
 .pageInsights {
     display: flex;
@@ -83,10 +85,8 @@ cursor: pointer;
 }
 #logout:hover{
     cursor: pointer;
+    box-shadow: 10px 10px 25px black;
     }
-
-
-
 .optional{
     margin-top: 30px;
     font-size: 1.2rem;
